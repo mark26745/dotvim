@@ -32,9 +32,10 @@
         nixvimModules.default = import ./nvim;
 
         devShells.default = pkgs.mkShell {
-          packages = [
+          packages = with pkgs; [
             self.packages.${system}.default
-            pkgs.wl-clipboard
+            wl-clipboard
+            just
           ];
         };
       }
