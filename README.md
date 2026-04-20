@@ -37,6 +37,7 @@ This repository provides a fast, declarative editor setup with a focus on perfor
 
 ```bash
 nix run
+just test # if you have the shell env running
 ```
 
 ---
@@ -58,6 +59,7 @@ This provides:
 
 ```bash
 nix build
+just build # if you have dev shell running
 ```
 
 ---
