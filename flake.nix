@@ -29,6 +29,8 @@
           ];
         };
 
+        nixvimModules.default = import ./nvim;
+
         devShells.default = pkgs.mkShell {
           packages = [
             self.packages.${system}.default
@@ -36,8 +38,5 @@
           ];
         };
       }
-    )
-    // {
-      nixvimModules.default = import ./nvim;
-    };
+    );
 }

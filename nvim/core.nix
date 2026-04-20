@@ -1,5 +1,3 @@
-{ ... }:
-
 {
 
   globals = {
@@ -8,7 +6,7 @@
   };
 
   opts = {
-clipboard = "unnamedplus";
+    clipboard = "unnamedplus";
     # --- UI basics ---
     number = true;
     relativenumber = true;
