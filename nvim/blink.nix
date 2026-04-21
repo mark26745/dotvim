@@ -1,17 +1,4 @@
 {
-  extraConfigLua = ''
-       vim.diagnostic.config({
-      virtual_text = true,
-      signs = true,
-      underline = true,
-      severity_sort = true,
-      float = {
-        border = "rounded",
-        source = "always",
-      },
-    })
-  '';
-
   plugins.blink-cmp = {
     enable = true;
 

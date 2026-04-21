@@ -1,8 +1,36 @@
 {
+  opts = {
+    laststatus = 3; # One bar at the bottom for all windows
+    showmode = false; # Hide default -- INSERT -- (Mini shows it better)
+  };
+
+  plugins.lsp-lines = {
+    enable = true;
+  };
+
+  extraConfigLua = ''
+    vim.diagnostic.config({
+    virtual_lines = { only_current_line = true },
+      virtual_text = false,
+      signs = true,
+      underline = true,
+      severity_sort = true,
+      float = {
+        border = "rounded",
+        source = "always",
+      },
+    })
+  '';
 
   plugins.mini = {
     enable = true;
-    modules.icons = { };
+    modules = {
+      icons = { };
+      statusline = {
+        use_icons = true;
+        # set_vim_settings = true; # Standard Mini behavior
+      };
+    };
     mockDevIcons = true; # THIS IS KEY: It prevents errors in Telescope/Lualine
   };
 
