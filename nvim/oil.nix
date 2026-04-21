@@ -2,10 +2,8 @@
   plugins.oil = {
     enable = true;
     settings = {
-      # Use default icons (requires the web-devicons/mini.icons we discussed)
       useDefaultKeymaps = true;
       viewOptions = {
-        # Show files that start with a dot
         showHidden = true;
       };
     };
@@ -30,7 +28,6 @@
     }
   ];
 
-  # Shortcut to open Oil manually
   keymaps = [
     {
       mode = "n";
