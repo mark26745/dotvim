@@ -1,5 +1,8 @@
 build:
   nix build .#default
 
-test: build
-  ./result/bin/nvim .
+check:
+  nix flake check
+
+test:
+  nix run {{justfile_directory()}}#default -- {{invocation_directory()}}

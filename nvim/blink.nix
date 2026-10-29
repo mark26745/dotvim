@@ -3,6 +3,17 @@
     enable = true;
 
     settings = {
+      fuzzy.implementation = "prefer_rust_with_warning";
+
+      completion = {
+        documentation = {
+          auto_show = true;
+          auto_show_delay_ms = 200; # docs popup without blocking typing
+        };
+      };
+
+      signature.enabled = true; # function signature help while typing args
+
       sources = {
         default = [
           "lsp"
@@ -26,6 +37,7 @@
 
           buffer = {
             score_offset = -10;
+            min_keyword_length = 3; # stop buffer words flooding the list on 1–2 chars
           };
         };
       };

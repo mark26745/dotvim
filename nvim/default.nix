@@ -10,5 +10,6 @@
     ./dap.nix
     ./ui.nix
     ./formatting.nix
+    ./git.nix
   ];
 }

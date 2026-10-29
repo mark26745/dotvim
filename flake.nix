@@ -18,22 +18,25 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = import nixpkgs {
-          inherit system;
+        pkgs = nixpkgs.legacyPackages.${system};
+        nixvimModule = {
+          inherit pkgs;
+          module = ./nvim;
         };
+        nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule nixvimModule;
       in
       {
-        packages.default = nixvim.legacyPackages.${system}.makeNixvim {
-          imports = [
-            ./nvim
-          ];
-        };
+        packages.default = nvim;
+
+        checks.default = nixvim.lib.${system}.check.mkTestDerivationFromNixvimModule nixvimModule;
+
+        formatter = pkgs.nixfmt-tree;
 
         devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            self.packages.${system}.default
-            wl-clipboard
-            just
+          packages = [
+            nvim
+            pkgs.wl-clipboard
+            pkgs.just
           ];
         };
       }
