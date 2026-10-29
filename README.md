@@ -1,5 +1,6 @@
-# dotvim
+[![Flake check](https://github.com/mark26745/dotvim/actions/workflows/check.yml/badge.svg)](https://github.com/mark26745/dotvim/actions/workflows/check.yml)
 
+# dotvim
 A minimal, reproducible Neovim configuration built with Nix and Nixvim.
 
 This repository provides a fast, declarative editor setup with a focus on performance, simplicity, and portability. It is designed to work consistently across systems using Nix flakes.
