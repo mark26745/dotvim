@@ -1,123 +1,125 @@
 { pkgs, lib, ... }:
 
 {
-  plugins.dap = {
-    enable = true;
+  plugins = {
+    dap = {
+      enable = true;
 
-    signs = {
-      dapBreakpoint = {
-        text = "●";
-        texthl = "DiagnosticError";
+      signs = {
+        dapBreakpoint = {
+          text = "●";
+          texthl = "DiagnosticError";
+        };
+        dapBreakpointCondition = {
+          text = "◆";
+          texthl = "DiagnosticWarn";
+        };
+        dapLogPoint = {
+          text = "◉";
+          texthl = "DiagnosticInfo";
+        };
+        dapStopped = {
+          text = "→";
+          texthl = "DiagnosticOk";
+          linehl = "Visual";
+        };
+        dapBreakpointRejected = {
+          text = "○";
+          texthl = "DiagnosticHint";
+        };
       };
-      dapBreakpointCondition = {
-        text = "◆";
-        texthl = "DiagnosticWarn";
-      };
-      dapLogPoint = {
-        text = "◉";
-        texthl = "DiagnosticInfo";
-      };
-      dapStopped = {
-        text = "→";
-        texthl = "DiagnosticOk";
-        linehl = "Visual";
-      };
-      dapBreakpointRejected = {
-        text = "○";
-        texthl = "DiagnosticHint";
-      };
-    };
 
-    adapters.servers = {
-      codelldb = {
-        port = "\${port}";
-        executable = {
-          command = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
-          args = [
-            "--port"
-            "\${port}"
+      adapters.servers = {
+        codelldb = {
+          port = "\${port}";
+          executable = {
+            command = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
+            args = [
+              "--port"
+              "\${port}"
+            ];
+          };
+        };
+        pwa-node = {
+          host = "localhost";
+          port = "\${port}";
+          executable = {
+            command = lib.getExe pkgs.vscode-js-debug;
+            args = [ "\${port}" ];
+          };
+        };
+      };
+
+      configurations =
+        let
+          jsConfigs = [
+            {
+              type = "pwa-node";
+              request = "launch";
+              name = "Launch file";
+              program = "\${file}";
+              cwd = "\${workspaceFolder}";
+              sourceMaps = true;
+              skipFiles = [
+                "<node_internals>/**"
+                "**/node_modules/**"
+              ];
+            }
+            {
+              type = "pwa-node";
+              request = "launch";
+              name = "Launch file (tsx)";
+              runtimeExecutable = "npx";
+              runtimeArgs = [ "tsx" ];
+              program = "\${file}";
+              cwd = "\${workspaceFolder}";
+              sourceMaps = true;
+              skipFiles = [
+                "<node_internals>/**"
+                "**/node_modules/**"
+              ];
+            }
+            {
+              type = "pwa-node";
+              request = "attach";
+              name = "Attach to process";
+              processId.__raw = "require('dap.utils').pick_process";
+              cwd = "\${workspaceFolder}";
+            }
           ];
+        in
+        {
+          javascript = jsConfigs;
+          typescript = jsConfigs;
+          javascriptreact = jsConfigs;
+          typescriptreact = jsConfigs;
+
+          rust = [
+            {
+              type = "codelldb";
+              name = "Debug Rust binary";
+              request = "launch";
+              program.__raw = ''
+                function()
+                  return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+                end
+              '';
+              cwd = "\${workspaceFolder}";
+              stopOnEntry = false;
+            }
+          ];
+          # Go: no entries here, dap-go registers the adapter and configurations.
         };
-      };
-      pwa-node = {
-        host = "localhost";
-        port = "\${port}";
-        executable = {
-          command = lib.getExe pkgs.vscode-js-debug;
-          args = [ "\${port}" ];
-        };
-      };
     };
 
-    configurations =
-      let
-        jsConfigs = [
-          {
-            type = "pwa-node";
-            request = "launch";
-            name = "Launch file";
-            program = "\${file}";
-            cwd = "\${workspaceFolder}";
-            sourceMaps = true;
-            skipFiles = [
-              "<node_internals>/**"
-              "**/node_modules/**"
-            ];
-          }
-          {
-            type = "pwa-node";
-            request = "launch";
-            name = "Launch file (tsx)";
-            runtimeExecutable = "npx";
-            runtimeArgs = [ "tsx" ];
-            program = "\${file}";
-            cwd = "\${workspaceFolder}";
-            sourceMaps = true;
-            skipFiles = [
-              "<node_internals>/**"
-              "**/node_modules/**"
-            ];
-          }
-          {
-            type = "pwa-node";
-            request = "attach";
-            name = "Attach to process";
-            processId.__raw = "require('dap.utils').pick_process";
-            cwd = "\${workspaceFolder}";
-          }
-        ];
-      in
-      {
-        javascript = jsConfigs;
-        typescript = jsConfigs;
-        javascriptreact = jsConfigs;
-        typescriptreact = jsConfigs;
+    dap-go = {
+      enable = true;
+      settings.delve.path = lib.getExe pkgs.delve;
+    };
 
-        rust = [
-          {
-            type = "codelldb";
-            name = "Debug Rust binary";
-            request = "launch";
-            program.__raw = ''
-              function()
-                return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
-              end
-            '';
-            cwd = "\${workspaceFolder}";
-            stopOnEntry = false;
-          }
-        ];
-        # Go: no entries here, dap-go registers the adapter and configurations.
-      };
+    dap-ui.enable = true;
+    dap-virtual-text.enable = true;
   };
-
-  plugins.dap-go = {
-    enable = true;
-    settings.delve.path = lib.getExe pkgs.delve;
-  };
-
-  plugins.dap-ui.enable = true;
-  plugins.dap-virtual-text.enable = true;
 
   # Open/close the UI automatically with debug sessions
   extraConfigLua = ''

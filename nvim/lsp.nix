@@ -1,49 +1,52 @@
 { pkgs, ... }:
 
 {
-  plugins.treesitter = {
-    enable = true;
-    grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-      nix
-      go
-      gomod
-      gowork
-      gosum
-      python
-      typescript
-      javascript
-      tsx
-      html
-      css
-      lua
-      vimdoc
-      query
-      regex
-      dockerfile
-      yaml
-      json
-      toml
-      bash
-      markdown
-      markdown_inline
-      rust
-      diff
-      gitcommit
-    ];
-    settings = {
-      highlight.enable = true;
-      indent.enable = true;
+  plugins = {
+    treesitter = {
+      enable = true;
+      grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+        nix
+        go
+        gomod
+        gowork
+        gosum
+        python
+        typescript
+        javascript
+        tsx
+        html
+        css
+        lua
+        vimdoc
+        query
+        regex
+        dockerfile
+        yaml
+        json
+        toml
+        bash
+        markdown
+        markdown_inline
+        rust
+        diff
+        gitcommit
+      ];
+      settings = {
+        highlight.enable = true;
+        indent.enable = true;
+      };
     };
-  };
 
-  plugins.ts-autotag.enable = true;
-  plugins.treesitter-context = {
-    enable = true;
-    settings.max_lines = 3;
-  };
+    ts-autotag.enable = true;
+    treesitter-context = {
+      enable = true;
+      settings.max_lines = 3;
+    };
 
-  # Supplies default configs (root markers, settings) for every server below
-  plugins.lspconfig.enable = true;
+    # Supplies default configs (root markers, settings) for every server below
+    lspconfig.enable = true;
+
+  };
 
   lsp = {
     servers = {
@@ -94,7 +97,6 @@
       # K, grn, gra, grr, gri are already Neovim 0.11 defaults
     ];
   };
-
   filetype.pattern = {
     "docker%-compose.*%.ya?ml" = "yaml.docker-compose";
     "compose%.ya?ml" = "yaml.docker-compose";

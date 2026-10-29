@@ -1,5 +1,3 @@
-{ ... }:
-
 {
 
   plugins.telescope = {
@@ -66,8 +64,7 @@
     };
   };
 
-
-keymaps = [
+  keymaps = [
     # Find files (The most used shortcut)
     {
       mode = "n";
@@ -103,6 +100,6 @@ keymaps = [
       action = "<cmd>Telescope git_files<CR>";
       options.desc = "Telescope Git Files";
     }
-];
+  ];
 
 }

@@ -24,19 +24,33 @@
           module = ./nvim;
         };
         nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule nixvimModule;
+
+        mkLintCheck =
+          name: tool: cmd:
+          pkgs.runCommandLocal "${name}-check" { nativeBuildInputs = [ tool ]; } ''
+            cd ${self}
+            ${cmd}
+            touch $out
+          '';
       in
       {
         packages.default = nvim;
 
-        checks.default = nixvim.lib.${system}.check.mkTestDerivationFromNixvimModule nixvimModule;
+        checks = {
+          default = nixvim.lib.${system}.check.mkTestDerivationFromNixvimModule nixvimModule;
+          statix = mkLintCheck "statix" pkgs.statix "statix check .";
+          deadnix = mkLintCheck "deadnix" pkgs.deadnix "deadnix --fail .";
+        };
 
         formatter = pkgs.nixfmt-tree;
 
         devShells.default = pkgs.mkShell {
-          packages = [
+          packages = with pkgs; [
             nvim
-            pkgs.wl-clipboard
-            pkgs.just
+            wl-clipboard
+            just
+            statix
+            deadnix
           ];
         };
       }
