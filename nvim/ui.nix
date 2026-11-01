@@ -5,6 +5,15 @@
     background = "dark";
   };
 
+  highlightOverride = {
+    NormalFloat.bg = "NONE";
+    FloatBorder.bg = "NONE";
+    FloatTitle = {
+      bg = "NONE";
+      bold = true;
+    };
+  };
+
   colorschemes.gruvbox-material = {
     enable = true;
     settings = {
@@ -43,18 +52,23 @@
     };
   };
 
+  # virtual_lines = { only_current_line = true },
   extraConfigLua = ''
     vim.diagnostic.config({
-    virtual_lines = { only_current_line = true },
-      virtual_text = false,
+      virtual_text = {
+        spacing = 2,
+        source = "if_many"
+      },
       signs = true,
       underline = true,
       severity_sort = true,
+      update_in_insert = false;
       float = {
         border = "rounded",
-        source = "always",
+        source = "if_many"
       },
     })
+    vim.lsp.set_log_level("ERROR")
   '';
 
 }

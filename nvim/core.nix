@@ -7,40 +7,35 @@
 
   opts = {
     clipboard = "unnamedplus";
-    # --- UI basics ---
     number = true;
     relativenumber = true;
-    termguicolors = true;
-    signcolumn = "yes";
-
-    # --- responsiveness ---
-    updatetime = 200;
-    timeoutlen = 300;
     ttimeoutlen = 10;
-
-    # --- editing feel ---
     expandtab = true;
     shiftwidth = 2;
     tabstop = 2;
     smartindent = true;
-
-    # --- search behavior ---
     ignorecase = true;
     smartcase = true;
     incsearch = true;
-
-    # --- performance-oriented ---
-    swapfile = false;
     backup = false;
     writebackup = false;
+    updatetime = 250;
+    timeoutlen = 300;
+    redrawtime = 1500;
+    synmaxcol = 300;
+    lazyredraw = false;
+    swapfile = false;
     undofile = true;
-
-    # reduces redraw overhead
-    lazyredraw = true;
-
-    # smoother scrolling behavior
+    completeopt = [
+      "menu"
+      "menuone"
+      "noselect"
+    ];
+    pumheight = 15;
     scrolloff = 8;
     sidescrolloff = 8;
+    signcolumn = "yes";
+    termguicolors = true;
   };
 
   # --- essential performance autocmd tweaks ---

@@ -40,7 +40,7 @@
     ts-autotag.enable = true;
     treesitter-context = {
       enable = true;
-      settings.max_lines = 3;
+      settings.max_lines = 5;
     };
 
     # Supplies default configs (root markers, settings) for every server below

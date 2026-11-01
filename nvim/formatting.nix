@@ -42,7 +42,7 @@
       ------------------------------------------------------------
       format_on_save = {
         lsp_fallback = false,   -- 🚀 avoids slow LSP formatting
-        timeout_ms = 500,       -- keep it tight
+        timeout_ms = 1500,       -- keep it tight
       },
     })
 
