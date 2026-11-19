@@ -1,5 +1,3 @@
-[![Flake check](https://github.com/mark26745/dotvim/actions/workflows/check.yml/badge.svg)](https://github.com/mark26745/dotvim/actions/workflows/check.yml)
-
 # dotvim
 A minimal, reproducible Neovim configuration built with Nix and Nixvim.
 
